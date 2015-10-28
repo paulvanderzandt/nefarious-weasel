@@ -1,1 +1,2 @@
+include 'assemble-norris'
 rootProject.name = 'assemble'

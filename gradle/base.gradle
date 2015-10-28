@@ -2,7 +2,7 @@ import org.gradle.process.internal.ExecException
 
 apply plugin: 'java'
 
-if(rootProject == project) {
+if (rootProject == project) {
     // Get version from git
     def out = new ByteArrayOutputStream()
     def err = new ByteArrayOutputStream();
@@ -25,8 +25,14 @@ if(rootProject == project) {
 
     project.version = result
     println "The version for $project.name has automatically been set to $project.version"
-} else{
+} else {
     project.version = rootProject.version
+}
+
+if (project != rootProject) {
+    dependencies {
+        compile rootProject;
+    }
 }
 
 apply plugin: 'maven-publish'
@@ -64,17 +70,17 @@ bintray {
     pkg {
         repo = 'maven'
         name = project.name
-        licenses = ['Apache-2.0']
+        licenses = ['Unlicense']
         vcsUrl = "https://github.com/${System.getenv('TRAVIS_REPO_SLUG')}.git"
         publications = ['mavenJava']
         version {
             name = project.version
-            released  = new Date()
+            released = new Date()
             vcsTag = System.getenv('TRAVIS_TAG')
         }
     }
 }
 
-if(System.getenv('TRAVIS_TAG') != null) {
+if (System.getenv('TRAVIS_TAG') != null && System.getenv('TRAVIS_TAG').length() >= 5) {
     publish.dependsOn bintrayUpload
 }

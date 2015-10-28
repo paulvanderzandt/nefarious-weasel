@@ -1,0 +1,7 @@
+plugins {
+    id "com.jfrog.bintray" version "1.4"
+}
+
+allprojects {
+    apply from: rootProject.file('gradle/base.gradle')
+}

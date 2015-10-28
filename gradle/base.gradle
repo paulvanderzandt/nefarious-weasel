@@ -1,0 +1,81 @@
+import org.gradle.process.internal.ExecException
+
+apply plugin: 'java'
+
+
+if(rootProject == project) {
+    // Get version from git
+    def out = new ByteArrayOutputStream()
+    def err = new ByteArrayOutputStream();
+    def result = "offline"
+
+    try {
+        project.exec {
+            commandLine 'git', 'describe', '--tags'
+            standardOutput = out
+            errorOutput = err
+        }
+        result = out.toString().trim();
+    } catch (ExecException ignored) {
+        // There is no tag on this
+        project.logger.error "No git tags were found, falling back to `$result`."
+    } finally {
+        out.close();
+        err.close();
+    }
+
+    project.version = result
+    println "The version for $project.name has automatically been set to $project.version"
+} else{
+    project.version = rootProject.version
+}
+
+apply plugin: 'maven-publish'
+
+task sourceJar(type: Jar, dependsOn: classes, group: 'build') {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc, group: 'build') {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier 'sources'
+            }
+
+            artifact javadocJar {
+                classifier 'javadoc'
+            }
+        }
+    }
+}
+
+bintray {
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRAY_KEY")
+    publish = true
+    pkg {
+        repo = 'maven'
+        name = project.name
+        licenses = ['Apache-2.0']
+        vcsUrl = "https://github.com/${System.getenv('TRAVIS_REPO_SLUG')}.git"
+        publications = ['mavenJava']
+        version {
+            name = project.version
+            released  = new Date()
+            vcsTag = System.getenv('TRAVIS_TAG')
+        }
+    }
+}
+
+if(System.getenv('TRAVIS_TAG') != null) {
+    publish.dependsOn bintrayUpload
+}

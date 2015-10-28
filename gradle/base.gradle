@@ -2,7 +2,6 @@ import org.gradle.process.internal.ExecException
 
 apply plugin: 'java'
 
-
 if(rootProject == project) {
     // Get version from git
     def out = new ByteArrayOutputStream()

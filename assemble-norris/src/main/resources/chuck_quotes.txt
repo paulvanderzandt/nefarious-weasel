@@ -33,7 +33,6 @@ Chuck Norris’ keyboard has 2 keys: 0 and 1.
 Chuck Norris finished World of Warcraft.
 Chuck Norris can instantiate an abstract class.
 Chuck Norris can write infinite recursion functions…and have them return.
-Some more that I rewrote or made up:
 Chuck Norris doesn’t need to login. He just enters.
 Chuck Norris can send files with Twitter.
 Chuck Norris can break any encryption using a Brute Force attack.

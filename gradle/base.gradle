@@ -64,12 +64,14 @@ publishing {
                 This is a workaround for the maven-publish plugin which sets the scope of all
                 dependencies to runtime. This will convert it to compile
              */
-            asNode().dependencies.'*'.findAll() {
-                it.scope.text() == 'runtime' && project.configurations.compile.allDependencies.find { dep ->
-                    dep.name == it.artifactId.text()
+            pom.withXml {
+                asNode().dependencies.'*'.findAll() {
+                    it.scope.text() == 'runtime' && project.configurations.compile.allDependencies.find { dep ->
+                        dep.name == it.artifactId.text()
+                    }
+                }.each() {
+                    it.scope*.value = 'compile'
                 }
-            }.each() {
-                it.scope*.value = 'compile'
             }
         }
     }

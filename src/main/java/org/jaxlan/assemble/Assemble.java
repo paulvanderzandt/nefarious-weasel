@@ -16,7 +16,9 @@ public class Assemble {
 
     static {
         ServiceLoader<FunProvider> loader = ServiceLoader.load(FunProvider.class);
-        loader.forEach(PROVIDERS::add);
+        for (FunProvider provider : loader) {
+            PROVIDERS.add(provider);
+        }
     }
 
     public static String assemble() {

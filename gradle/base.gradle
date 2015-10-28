@@ -1,7 +1,7 @@
 import org.gradle.process.internal.ExecException
 
 apply plugin: 'java'
-
+apply plugin: 'com.jfrog.bintray'
 if (rootProject == project) {
     // Get version from git
     def out = new ByteArrayOutputStream()

@@ -1,1 +1,2 @@
 # Assemble [![Build Status](https://travis-ci.org/thomasbiesaart/nefarious-weasel.svg?branch=master)](https://travis-ci.org/thomasbiesaart/nefarious-weasel) [ ![Download](https://api.bintray.com/packages/thomasbiesaart/maven/assemble/images/download.svg) ](https://bintray.com/thomasbiesaart/maven/assemble/_latestVersion)
+Assemble is a little library that allows you to select random quotes. 

@@ -1,2 +1,3 @@
 include 'assemble-norris'
+include 'assemble-nerds'
 rootProject.name = 'assemble'
